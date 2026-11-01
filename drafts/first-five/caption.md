@@ -12,4 +12,4 @@ Works with American, Alaska, Hawaiian, Delta, United, Southwest.
 
 Terms: first 5 confirmed forwards that match a commenter. US domestic and international trips on the six airlines above. One trip each.
 
-#cheapflights #flighthacks #traveltips #airfare #savemoney #travelsmart
+#flighthacks #cheapflights #frequentflyer #budgettravel #travelhacks

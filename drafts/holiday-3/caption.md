@@ -15,4 +15,4 @@ How to start:
 
 Link in bio.
 
-#holidaytravel #christmastravel #cheapflights #flighthacks #savemoney
+#christmastravel #holidaytravel #frequentflyer #pointsandmiles #flighthacks
