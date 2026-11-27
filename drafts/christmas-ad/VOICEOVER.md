@@ -1,13 +1,20 @@
-# 6.8-second voiceover (Erik records on his phone, faceless)
+# Voiced Christmas reel (7.76s)
 
-Script (19 words, about 6.5–7s at a relaxed pace):
+Ad B / reel 1 visuals (gift money), v4 locked type. Captions match the spoken words. Music is ducked under the voice.
 
-> Need gift money this Christmas? Your flight could pay you back. Many airlines give airline credits if the fare drops.
+Script (21 words):
 
-Timing (matches reel-3-gifts-voiceover-bed-6.8s.mp4, where the on-screen text changes at each mark):
-- 0.0–2.4s: "Need gift money this Christmas? Your flight could pay you back." (hook text is on screen from frame 1)
-- 2.4–5.2s: "Many airlines give airline credits if the fare drops."
-- 5.2–6.0s: the proof chip ("3 drops on one trip: 41% back") appears
-- 6.0–6.8s: no voice. The fee line and fareward.com sit on screen while the music fades.
+> Need gift money this Christmas? If your fare drops after you book, many airlines give airline credits. Fareward watches for you.
 
-How to record: in a quiet room (a closet is great), hold the phone about 6 inches away, use Voice Memos, and speak relaxed and conversational. Do 2 or 3 takes. Send the best one and we'll mix it over reel-3, where Chill Wave is already ducked to about 30%.
+Never promises a credit. Uses "many airlines" and "airline credits."
+
+Voice: Microsoft Edge neural **en-US-AndrewNeural** (US English male; tagged Warm, Confident, Authentic, Honest), rate +8%. Recorded with edge-tts. This is an AI voice, not Erik.
+
+Timing (matches `reel-vo-gifts-7.8s.mp4`):
+- 0.00–1.75s on screen from frame 1: "Need gift money this Christmas?" (speech starts at 0.10s)
+- 1.75–5.51s: "If your fare drops after you book, many airlines give airline credits."
+- 5.51–7.76s: "Fareward watches for you." The fee line and fareward.com sit on screen while the jingle fades.
+
+Music: "Jingle Bells" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0. https://creativecommons.org/licenses/by/4.0/
+
+If this reel is posted or run as an ad, include that music credit in the primary text or caption (required for CC BY).

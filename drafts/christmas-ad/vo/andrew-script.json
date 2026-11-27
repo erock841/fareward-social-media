@@ -1,0 +1,25 @@
+{
+  "voice": "en-US-AndrewNeural",
+  "rate": "+8%",
+  "text": "Need gift money this Christmas? If your fare drops after you book, many airlines give airline credits. Fareward watches for you.",
+  "words": [
+    {
+      "type": "SentenceBoundary",
+      "text": "Need gift money this Christmas?",
+      "offset": 0.1,
+      "duration": 1.7013888
+    },
+    {
+      "type": "SentenceBoundary",
+      "text": "If your fare drops after you book, many airlines give airline credits.",
+      "offset": 1.7513888,
+      "duration": 3.7615739
+    },
+    {
+      "type": "SentenceBoundary",
+      "text": "Fareward watches for you.",
+      "offset": 5.5129627,
+      "duration": 1.5509258
+    }
+  ]
+}

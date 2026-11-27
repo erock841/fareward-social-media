@@ -129,19 +129,19 @@ ADS = {
         photo="px_127441.jpg", fx=0.5, fy=0.45,
         emo="🎁",
         head=["Need gift money", "this Christmas?", "Your flight could", "pay you back."],
-        chip="3 drops on one trip: 41% back",
+        chip="One real trip: 41% back",
     ),
     "c-savings-wing": dict(
         photo="px_20952602.jpg", fx=0.5, fy=0.6,
         emo="✈️",
         head=["Your fare dropped?", "Get it back.", "A real trip got", "41% back."],
-        chip="One real save: 41% back",
+        chip="One real trip: 41% back",
     ),
     "d-5days-window": dict(
         photo="px_3863778.jpg", fx=0.5, fy=0.5,
         emo="❄️",
         head=["Fares can still drop", "5 days before", "you fly.", "Get it back."],
-        chip="Last drop, 5 days out: 41% back",
+        chip="One real trip: 41% back",
     ),
 }
 
@@ -283,6 +283,8 @@ def contact_sheet():
         "reel-2-savings-6.5s-frames.png",
         "reel-3-gifts-voiceover-bed-6.8s-frames.png",
     ]
+    # Voiced reel (name includes its measured duration)
+    reels += sorted(f for f in os.listdir(OUT) if f.startswith("reel-vo-gifts-") and f.endswith("-frames.png"))
     reels = [f for f in reels if os.path.exists(f"{OUT}/{f}")]
     col, gap, label_h = 400, 16, 44
     n = 4
@@ -314,9 +316,13 @@ def contact_sheet():
         "reel-1-gifts-6.5s-frames.png": "Reel 1 — gifts  ·  6.5s  ·  hook / support / chip / fee",
         "reel-2-savings-6.5s-frames.png": "Reel 2 — savings 41%  ·  6.5s  ·  hook / support / chip / fee",
         "reel-3-gifts-voiceover-bed-6.8s-frames.png": "Reel 3 — gifts voiceover bed  ·  6.8s  ·  music ducked",
+        "reel-vo-gifts-": "Reel VO — gifts, spoken captions, Jingle Bells under AI voice",
     }
     for f in reels:
-        y = row_label(y, captions.get(f, f))
+        label = captions.get(f, f)
+        if f.startswith("reel-vo-gifts-"):
+            label = "Reel VO — gifts + spoken captions + Jingle Bells  ·  " + f.replace("-frames.png","").replace("reel-vo-gifts-","")
+        y = row_label(y, label)
         strip = Image.open(f"{OUT}/{f}")
         target_w = n * col + (n - 1) * gap
         c.paste(strip.resize((target_w, reel_h), Image.LANCZOS), (gap, y))
