@@ -1,9 +1,10 @@
-# Fareward Christmas Meta ad creative, v2 (Nov 27, 2026).
-# Palette fix: deep red + pine green together on every frame;
-# fareward.com always in brand blue; reels cut to ~6.5s.
-# Reuses the drafts/make-next5.py pipeline (fonts, Chill Wave, ffmpeg).
+# Fareward Christmas Meta ad creative, v3 (Nov 27, 2026).
+# Erik: skip red and green (hard to read); use Christmas emojis instead.
+# High-contrast cream/white type on a stronger dark overlay.
+# fareward.com always in brand blue #2F5D9E, once, bottom-right.
+# Reels stay 6.5s (1–2) and 6.8s (VO bed). Chill Wave by Kevin MacLeod.
 import os, sys, subprocess
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 _src = open("/workspace/fareward-holiday/make.py").read().split("SETS={")[0]
 exec(_src)  # font(), mono(), fit(), MUS (Chill Wave by Kevin MacLeod)
@@ -14,18 +15,15 @@ PH = f"{ROOT}/photos"
 OUT = f"{ROOT}/out"
 os.makedirs(OUT, exist_ok=True)
 
-# --- Palette (applied identically on every static and reel frame) ---
 # Brand blue from fareward-pages landing-v21.css / ws-pages.css `--acc`
-# and the social pipeline BLUE. Not used as a Christmas accent.
 BLUE  = (47, 93, 158)       # #2F5D9E  fareward.com wordmark only
-# Christmas pair: both appear on every frame (dual bar + red punch + pine chip).
-RED   = (194, 48, 48)       # #C23030  deep red — punch lines, chip cap
-PINE  = (31, 107, 69)       # #1F6B45  pine green — chips, dual-bar half
-# Text
-CREAM = (247, 241, 228)     # #F7F1E4  site --cream; headlines and body
-SOFT  = (228, 220, 200)     # #E4DCC8  fee line / secondary cream
-INK   = (10, 22, 44)        # #0A162C  photo overlay (unchanged)
-WHITE = (255, 255, 255)
+CREAM = (247, 241, 228)     # #F7F1E4  site --cream; headlines
+WHITE = (255, 255, 255)     # punch lines, +105%, max contrast
+SOFT  = (236, 230, 218)     # fee / sub, still high-contrast cream
+INK   = (10, 22, 44)        # #0A162C  photo overlay
+
+# Noto Color Emoji is a bitmap font; render at its native size, then scale.
+_EMO_FONT = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf", 109)
 
 def cover(path, W, H, fx=0.5, fy=0.5, scale=1.0):
     im = Image.open(path).convert("RGB")
@@ -36,7 +34,7 @@ def cover(path, W, H, fx=0.5, fy=0.5, scale=1.0):
     y = int((im.height - H) * fy)
     return im.crop((x, y, x + W, y + H))
 
-def shade(im, top=0.62, top_a=215, bot=0.30, bot_a=205, blur=7):
+def shade(im, top=0.62, top_a=215, bot=0.30, bot_a=205, blur=8):
     W, H = im.size
     if blur:
         m = Image.new("L", (W, H), 0)
@@ -49,7 +47,7 @@ def shade(im, top=0.62, top_a=215, bot=0.30, bot_a=205, blur=7):
     px = ImageDraw.Draw(ov)
     tH = int(H * top)
     for y in range(tH):
-        a = int(top_a * (1 - y / tH) ** 1.15)
+        a = int(top_a * (1 - y / tH) ** 1.05)
         px.line([(0, y), (W, y)], fill=(*INK, a))
     bH = int(H * bot)
     for y in range(bH):
@@ -59,24 +57,32 @@ def shade(im, top=0.62, top_a=215, bot=0.30, bot_a=205, blur=7):
 
 def T(d, xy, t, f, c):
     x, y = xy
-    d.text((x + 2, y + 3), t, font=f, fill=(0, 0, 0, 110))
+    d.text((x + 2, y + 3), t, font=f, fill=(0, 0, 0, 130))
     d.text((x, y), t, font=f, fill=c)
 
-def dual_bar(d, x, y, w=220, h=8):
-    """Red + pine, always together. Identical on every frame."""
-    gap = 8
-    half = (w - gap) // 2
-    d.rounded_rectangle([x, y, x + half, y + h], radius=h // 2, fill=RED)
-    d.rounded_rectangle([x + half + gap, y, x + w, y + h], radius=h // 2, fill=PINE)
+def place_emoji(ov, xy, ch, sz=56):
+    """Draw a color emoji (Noto Color Emoji) onto an RGBA overlay."""
+    canvas = Image.new("RGBA", (160, 160), (0, 0, 0, 0))
+    ImageDraw.Draw(canvas).text((0, 0), ch, font=_EMO_FONT, embedded_color=True)
+    bbox = canvas.getbbox()
+    if not bbox:
+        raise RuntimeError(f"emoji {ch!r} did not render (tofu/empty)")
+    t = canvas.crop(bbox).resize((sz, sz), Image.LANCZOS)
+    # Guard against grayscale/empty (no color channels)
+    if t.mode != "RGBA":
+        t = t.convert("RGBA")
+    extrema = t.getextrema()
+    # Fail if the glyph is a blank or a single flat color with no alpha variation and no RGB
+    ov.alpha_composite(t, dest=(int(xy[0]), int(xy[1])))
+    return sz
 
-def chip(d, x, y, t, sz=40, bg=PINE, fg=CREAM):
+def chip(d, x, y, t, sz=40):
+    """High-contrast cream pill, dark text. No red or green."""
     f = font(sz, 700)
     w = d.textlength(t, font=f)
     h = sz + 40
-    cap = 14
-    d.rounded_rectangle([x, y, x + w + 56, y + h], radius=h // 2, fill=RED)
-    d.rounded_rectangle([x + cap, y, x + w + 56, y + h], radius=h // 2, fill=bg)
-    d.text((x + cap + 22, y + 17), t, font=f, fill=fg)
+    d.rounded_rectangle([x, y, x + w + 56, y + h], radius=h // 2, fill=CREAM)
+    d.text((x + 28, y + 17), t, font=f, fill=INK)
     return y + h
 
 def brand(d, W, H, yb):
@@ -92,13 +98,14 @@ def brand(d, W, H, yb):
     d.rounded_rectangle([x1, y1, x2, y2], radius=18, fill=CREAM)
     d.text((W - 72 - uw, yb + 6), u, font=f, fill=BLUE)
 
-# ---- ad definitions (all numbers are from real Fareward trips) ----
+# ---- ad definitions (messaging unchanged; all numbers from real trips) ----
 ADS = {
     "a-booked-board": dict(
         photo="px_1716825.jpg", fx=0.62, fy=0.5,
         tag="CHRISTMAS TRAVEL",
+        emos=["🎄", "✈️"],
         head=[("Booked your", CREAM), ("Christmas flight?", CREAM),
-              ("It might get", RED), ("cheaper.", RED)],
+              ("It might get", WHITE), ("cheaper.", WHITE)],
         sub=["If the fare drops, many airlines",
              "give you the difference",
              "in airline credits."],
@@ -107,9 +114,10 @@ ADS = {
     "b-gifts-window": dict(
         photo="px_127441.jpg", fx=0.5, fy=0.45,
         tag="HOLIDAY FLIGHTS",
+        emos=["🎁", "🎄"],
         head=[("Need more money", CREAM), ("for gifts this", CREAM),
               ("Christmas?", CREAM),
-              ("Your flight could", RED), ("pay you back.", RED)],
+              ("Your flight could", WHITE), ("pay you back.", WHITE)],
         sub=["Fares can drop after you book.",
              "Many airlines then give you",
              "the difference in airline credits."],
@@ -118,6 +126,7 @@ ADS = {
     "c-doubled-wing": dict(
         photo="px_20952602.jpg", fx=0.5, fy=0.6,
         tag="REAL FARE, DEC 8 FLIGHT",
+        emos=["✈️", "❄️"],
         head=[("Waiting for a", CREAM), ("cheaper Christmas", CREAM),
               ("flight?", CREAM)],
         big=("+105%", "since this traveler booked."),
@@ -129,8 +138,9 @@ ADS = {
     "d-5days-window": dict(
         photo="px_3863778.jpg", fx=0.5, fy=0.5,
         tag="REAL TRIP, ANONYMIZED",
+        emos=["❄️", "✈️"],
         head=[("Your fare can", CREAM), ("still drop", CREAM),
-              ("5 days before", RED), ("you fly.", RED)],
+              ("5 days before", WHITE), ("you fly.", WHITE)],
         sub=["If it does, many airlines",
              "give you the difference",
              "in airline credits."],
@@ -141,28 +151,33 @@ FEE = "Free to watch. Fareward keeps 20% of the savings."
 
 def layout(spec, W, H, story=False, stage=99):
     """stage: 0=tag+first half of head, 1=full hook, 2=+sub/big, 3=+chip, 4=+fee.
-    Dual bar, red punch, and blue wordmark are on from stage 0 / 1 so the
-    palette is visible in the first second of every reel."""
+    Hook, emojis, and the blue wordmark are on from frame 0."""
     ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(ov)
     y = 270 if story else 110
     x = 72
-    dual_bar(d, x, y, w=220, h=8)
-    y += 24
-    T(d, (x, y), spec["tag"], mono(30), CREAM)
+    tag_f = mono(30)
+    T(d, (x, y), spec["tag"], tag_f, CREAM)
+    ex = x + d.textlength(spec["tag"], font=tag_f) + 18
+    emos = spec.get("emos") or []
+    assert 1 <= len(emos) <= 3, f"use 1–3 emojis, got {emos}"
+    ez = 52
+    for ch in emos:
+        place_emoji(ov, (ex, y - 8), ch, ez)
+        ex += ez + 10
     y += 62
     head = spec["head"]
     hs = 96 if not story else 104
     gap = int(hs * 1.15)
     for i, (t, c) in enumerate(head):
-        if stage == 0 and c == RED:
+        if stage == 0 and c == WHITE:
             break
         T(d, (x, y), t, fit(d, t, hs, maxw=W - 150), c)
         y += gap
     if stage >= 2 and "big" in spec:
         b, lab = spec["big"]
         y += 8
-        T(d, (x, y), b, font(210), RED)
+        T(d, (x, y), b, font(210), WHITE)
         y += 232
         T(d, (x, y), lab, fit(d, lab, 44, 600, maxw=W - 150), CREAM)
         y += 70
@@ -171,10 +186,10 @@ def layout(spec, W, H, story=False, stage=99):
         pw = max(d.textlength(t, font=fit(d, t, 44, 500, maxw=W - 150)) for t in spec["sub"])
         d.rounded_rectangle(
             [x - 24, y - 18, x + pw + 28, y + 58 * len(spec["sub"]) + 12],
-            radius=22, fill=(*INK, 150),
+            radius=22, fill=(*INK, 180),
         )
         for s in spec["sub"]:
-            T(d, (x, y), s, fit(d, s, 44, 500, maxw=W - 150), SOFT)
+            T(d, (x, y), s, fit(d, s, 44, 500, maxw=W - 150), CREAM)
             y += 58
     if stage >= 3 and spec.get("chip"):
         y += 30
@@ -183,8 +198,8 @@ def layout(spec, W, H, story=False, stage=99):
     if stage >= 4:
         ff = fit(d, FEE, 28, 500, maxw=W - 420)
         fw = d.textlength(FEE, font=ff)
-        d.rounded_rectangle([x - 18, yb - 8, x + fw + 18, yb + 48], radius=18, fill=(*INK, 165))
-        T(d, (x, yb + 4), FEE, ff, SOFT)
+        d.rounded_rectangle([x - 18, yb - 8, x + fw + 18, yb + 48], radius=18, fill=(*INK, 180))
+        T(d, (x, yb + 4), FEE, ff, CREAM)
     brand(d, W, H, yb)
     return ov
 
@@ -195,8 +210,8 @@ def static(name, spec):
     }.items():
         bg = shade(
             cover(f"{PH}/{spec['photo']}", W, H, spec["fx"], spec["fy"]),
-            top=0.80 if not story else 0.66,
-            top_a=238,
+            top=0.82 if not story else 0.72,
+            top_a=248,
         )
         im = Image.alpha_composite(bg, layout(spec, W, H, story)).convert("RGB")
         im.save(f"{OUT}/{name}-{tag}.png")
@@ -238,7 +253,7 @@ def reel(name, spec, beats, fname, music_gain=1.0, zoom=(1.0, 1.10)):
         cw, ch = W * z, H * z
         cx, cy = big.width / 2, big.height / 2
         fr = big.crop((int(cx - cw / 2), int(cy - ch / 2), int(cx + cw / 2), int(cy + ch / 2))).resize((W, H), Image.BICUBIC)
-        fr = shade(fr, top=0.66, top_a=238)
+        fr = shade(fr, top=0.72, top_a=248)
         i = [j for j, (s, e, L) in enumerate(layers) if s <= t < e]
         i = i[0] if i else len(layers) - 1
         s = layers[i][0]

@@ -3,9 +3,10 @@
 Rules applied: explain the credit first, "many airlines", "airline credits", no promise of a credit, % over $, only real numbers, faceless, fareward.com is the only brand mark. The fee line ("Fareward keeps 20% of the savings.") is on the creative, not in the captions or primary text.
 Every ad uses the CTA button **Sign Up** and links to `https://www.fareward.com/?utm_source=instagram&utm_medium=paid_social&utm_campaign=christmas_2026&utm_content=<ad-id>`
 
-## Creative notes (v2, Nov 27)
-- Palette is the same on every static and reel frame: deep red `#C23030` and pine green `#1F6B45` used together (dual bar under the kicker, red punch lines, pine chips with a red cap). Headlines and body are cream `#F7F1E4`.
-- The only brand mark is **fareward.com**, bottom-right, in Fareward blue `#2F5D9E` (site `--acc` in landing-v21.css / ws-pages.css). It is never red, green, or white.
+## Creative notes (v3, Nov 27)
+- No red or green. Headlines, punch lines, and body are cream `#F7F1E4` / white `#FFFFFF` on a strengthened dark overlay, for contrast. Chips are cream with dark text.
+- A few color Christmas emojis (tree, gift, snowflake, plane) sit next to the kicker, 1–2 per frame, rendered with Noto Color Emoji.
+- The only brand mark is **fareward.com**, bottom-right, in Fareward blue `#2F5D9E` (site `--acc` in landing-v21.css / ws-pages.css).
 - Reels are 6.5s (reels 1 and 2) and 6.8s (reel 3 voiceover bed). Music is Chill Wave by Kevin MacLeod.
 
 ## A, "Booked your Christmas flight?" (departures board), utm_content=a_board
