@@ -3,6 +3,11 @@
 Rules applied: explain the credit first, "many airlines", "airline credits", no promise of a credit, % over $, only real numbers, faceless, fareward.com is the only brand mark. The fee line ("Fareward keeps 20% of the savings.") is on the creative, not in the captions or primary text.
 Every ad uses the CTA button **Sign Up** and links to `https://www.fareward.com/?utm_source=instagram&utm_medium=paid_social&utm_campaign=christmas_2026&utm_content=<ad-id>`
 
+## Creative notes (v2, Nov 27)
+- Palette is the same on every static and reel frame: deep red `#C23030` and pine green `#1F6B45` used together (dual bar under the kicker, red punch lines, pine chips with a red cap). Headlines and body are cream `#F7F1E4`.
+- The only brand mark is **fareward.com**, bottom-right, in Fareward blue `#2F5D9E` (site `--acc` in landing-v21.css / ws-pages.css). It is never red, green, or white.
+- Reels are 6.5s (reels 1 and 2) and 6.8s (reel 3 voiceover bed). Music is Chill Wave by Kevin MacLeod.
+
 ## A, "Booked your Christmas flight?" (departures board), utm_content=a_board
 On image: CHRISTMAS TRAVEL / Booked your Christmas flight? **It might get cheaper.** / If the fare drops, many airlines give you the difference in airline credits. / [One real trip: 41% back] / Free to watch. Fareward keeps 20% of the savings.
 - Primary text: Booked your Christmas flight? Fares can drop after you buy. When that happens, many airlines give you the difference in airline credits, but only if someone notices. Fareward watches your price until takeoff. One real trip got 41% back.
@@ -16,7 +21,7 @@ On image: HOLIDAY FLIGHTS / Need more money for gifts this Christmas? **Your fli
 - Description: Free to watch
 
 ## C, "Waiting for a cheaper Christmas flight?" (+105%, snowy wing), utm_content=c_doubled
-On image: REAL FARE, DEC 8 FLIGHT / Waiting for a cheaper Christmas flight? / **+105%** since this traveler booked. / Book the one you want now. If it drops later, many airlines give airline credits. We catch it. / fee line
+On image: REAL FARE, DEC 8 FLIGHT / Waiting for a cheaper Christmas flight? / **+105%** since this traveler booked. / Book the one you want now. If it drops later, many airlines give airline credits. We catch it. / [One real save, not a typical result] / fee line
 (Source: real American Cancun to San Antonio trip on Dec 8, booked at $567.57. The same cabin is now $1,164.)
 - Primary text: Waiting for a cheaper Christmas flight? One real Dec 8 fare has more than doubled (up 105%) since it was booked. Book the flight you want now. If the price drops later, many airlines give you the difference in airline credits, and Fareward watches for it.
 - Headline: Book now. We'll watch the price.
@@ -28,13 +33,16 @@ On image: REAL TRIP, ANONYMIZED / Your fare can still drop **5 days before you f
 - Headline: Fares drop right up to takeoff
 - Description: Free to watch
 
-## Reel 1, gifts (9.8s, Chill Wave), utm_content=r1_gifts
-Beats: 0–2.6s hook (full question plus "Your flight could pay you back." on frame 1) → 2.6–5.6s explainer → 5.6–7.8s "3 drops on one trip: 41% back" → 7.8–9.8s fee line.
+## Reel 1, gifts (6.5s, Chill Wave), utm_content=r1_gifts
+Beats: 0–1.8s hook (full question plus "Your flight could pay you back." on frame 1) → 1.8–3.8s explainer → 3.8–5.2s "3 drops on one trip: 41% back" → 5.2–6.5s fee line.
 Primary text, headline, and CTA are the same as B.
 
-## Reel 2, doubled (9.8s, Chill Wave), utm_content=r2_doubled
-Beats: 0–2.4s "Waiting for a cheaper Christmas flight?" → 2.4–7.2s +105% plus "Book the one you want now…" → 7.2–9.8s fee line.
+## Reel 2, doubled (6.5s, Chill Wave), utm_content=r2_doubled
+Beats: 0–1.6s "Waiting for a cheaper Christmas flight?" → 1.6–3.4s +105% plus "since this traveler booked." → 3.4–5.0s "One real save, not a typical result" → 5.0–6.5s fee line.
 Primary text, headline, and CTA are the same as C.
+
+## Reel 3, gifts voiceover bed (6.8s, Chill Wave ducked), no utm until mixed
+Same on-screen creative as Reel 1, retimed to the shortened voiceover script in VOICEOVER.md. Music is ducked to about 30% so Erik's voice can sit on top. Do not launch this cut until the voiceover is mixed.
 
 ## Organic captions (no fee line, ≤5 hashtags)
 **B / Reel 1:** Need more money for gifts this Christmas? 🎁 If your fare drops after you book, many airlines give you the difference in airline credits. One real trip dropped 3 times: 41% back. Forward your confirmation to trips (at) fareward.com and we'll watch it. Link in bio.
